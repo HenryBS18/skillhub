@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Student } from 'generated/prisma/client'
+import { Student } from 'generated/prisma'
 import { NotFoundError } from 'src/errors/notFoundError'
 import { PrismaService } from './../common/prisma.service'
 
@@ -33,6 +33,21 @@ export class StudentService {
       if (!student) throw new NotFoundError('Student not found')
 
       return student
+    } catch (error) {
+      throw error
+    }
+  }
+
+  public async updateById(student: Student): Promise<void> {
+    try {
+      await this.getById(student.id)
+
+      await this.prisma.student.update({
+        where: {
+          id: student.id,
+        },
+        data: student
+      })
     } catch (error) {
       throw error
     }
