@@ -61,7 +61,7 @@ export class ClassService {
 
   public async deleteById(id: string): Promise<void> {
     try {
-      const res = await this.api.patch(`/${id}`)
+      const res = await this.api.delete(`/${id}`)
       await checkError(res)
     } catch (error) {
       throw error
