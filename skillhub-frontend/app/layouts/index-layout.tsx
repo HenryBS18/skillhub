@@ -1,6 +1,8 @@
-import { Link, Outlet } from "react-router"
+import { Link, Outlet, useLocation } from "react-router"
 
 export default function IndexLayout() {
+  const location = useLocation()
+
   return (
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -10,8 +12,8 @@ export default function IndexLayout() {
 
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-lg">
-            <li><Link to={'/peserta'}>Peserta</Link></li>
-            <li><Link to={'/kelas'}>Kelas</Link></li>
+            <li className={`${location.pathname === '/peserta' ? 'border-b-2' : ''}`}><Link to={'/peserta'}>Peserta</Link></li>
+            <li className={`${location.pathname === '/kelas' ? 'border-b-2' : ''}`}><Link to={'/kelas'}>Kelas</Link></li>
           </ul>
         </div>
 
