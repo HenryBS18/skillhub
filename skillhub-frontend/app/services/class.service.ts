@@ -1,13 +1,5 @@
+import type { Class, CreateClass } from "~/types"
 import { Api, checkError } from "~/utils"
-
-type Class = {
-  id: string
-  name: string
-  description: string
-  instructor: string
-}
-
-type CreateClass = Omit<Class, 'id'>
 
 export class ClassService {
   private api: Api

@@ -1,18 +1,6 @@
+import type { AssignClass, CreateStudent, Student } from "~/types"
 import { Api, checkError } from "~/utils"
 
-type Student = {
-  id: string
-  name: string
-  nim: string
-  email: string
-}
-
-type CreateStudent = Omit<Student, 'id'>
-
-type AssignClass = {
-  studentId: string
-  classId: string
-}
 
 export class StudentService {
   private api: Api
