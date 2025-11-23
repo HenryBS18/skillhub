@@ -7,9 +7,16 @@ import { PrismaService } from 'src/common/prisma.service'
 export class StudentClassService {
   constructor(private readonly prisma: PrismaService) { }
 
-  public async create(student: Omit<StudentClass, 'id'>): Promise<void> {
+  public async create(data: Omit<StudentClass, 'id'>): Promise<void> {
     try {
-      await this.prisma.studentClass.create({ data: student })
+      const alreadyJoin = await this.prisma.studentClass.findFirst({
+        where: {
+          classId: data.classId
+        }
+      })
+      if (alreadyJoin) throw new Error('Already join class')
+
+      await this.prisma.studentClass.create({ data })
     } catch (error) {
       throw error
     }

@@ -1,17 +1,16 @@
 import { Body, Controller, Delete, Get, Param, Post, Res } from '@nestjs/common'
 import type { Response } from 'express'
-import { StudentClass } from 'generated/prisma'
 import { errorMessageParser } from 'src/common/utils/error-message-parser'
 import { StudentClassService } from './student-class.service'
 
-@Controller('/student-class')
+@Controller()
 export class StudentClassController {
   constructor(private readonly studentClassService: StudentClassService) { }
 
-  @Post()
-  public async create(@Res() res: Response, @Body() student: Omit<StudentClass, 'id'>) {
+  @Post('/student/:studentId/class')
+  public async create(@Res() res: Response, @Param('studentId') studentId: string, @Body() { classId }: { classId: string }) {
     try {
-      await this.studentClassService.create(student)
+      await this.studentClassService.create({ studentId, classId })
 
       return res.status(200).send()
     } catch (error) {
@@ -19,7 +18,7 @@ export class StudentClassController {
     }
   }
 
-  @Get('/student/:id')
+  @Get('/student/:id/class')
   public async getAllClassesByStudentId(@Res() res: Response, @Param('id') studentId: string) {
     try {
       const classes = await this.studentClassService.getAllClassesByStudentId(studentId)
@@ -30,7 +29,7 @@ export class StudentClassController {
     }
   }
 
-  @Get('/class/:id')
+  @Get('/class/:id/student')
   public async getAllStudentsByClassId(@Res() res: Response, @Param('id') classId: string) {
     try {
       const students = await this.studentClassService.getAllStudentsByClassId(classId)
@@ -41,7 +40,7 @@ export class StudentClassController {
     }
   }
 
-  @Delete('/:id')
+  @Delete('/student-class/:id')
   public async deleteById(@Res() res: Response, @Param('id') id: string) {
     try {
       await this.studentClassService.deleteById(id)
