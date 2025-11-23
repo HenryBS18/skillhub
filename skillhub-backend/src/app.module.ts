@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
+import { ClassModule } from './class/class.module'
 import { CommonModule } from './common/common.module'
 import { StudentModule } from './student/student.module'
-import { ClassModule } from './class/class.module';
 
 @Module({
   imports: [CommonModule, StudentModule, ClassModule],

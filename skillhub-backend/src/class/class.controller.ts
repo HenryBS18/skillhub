@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Res } from '@nestjs/common'
 import type { Response } from 'express'
 import { Class } from 'generated/prisma'
-import { errorMessageParser } from 'src/utils/errorMessageParser'
+import { errorMessageParser } from 'src/common/utils/error-message-parser'
 import { ClassService } from './class.service'
 
 @Controller('class')
