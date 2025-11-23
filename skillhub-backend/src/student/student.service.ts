@@ -58,6 +58,12 @@ export class StudentService {
       const student = await this.getById(id)
       if (!student) throw new NotFoundError('Student not found')
 
+      await this.prisma.studentClass.deleteMany({
+        where: {
+          studentId: id
+        }
+      })
+
       await this.prisma.student.delete({
         where: { id }
       })
