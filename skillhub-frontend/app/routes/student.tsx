@@ -127,9 +127,13 @@ export default function Student({ loaderData }: Route.ComponentProps) {
             <div className="modal-action">
               <button className="btn btn-success" type="submit">Tambah</button>
 
-              <form method="dialog">
-                <button className="btn btn-error">Batal</button>
-              </form>
+              <button className="btn btn-error" type="button" onClick={() => {
+                addModalRef.current?.close()
+                setSelectedStudent(null)
+              }}
+              >
+                Batal
+              </button>
             </div>
           </Form>
         </div>
@@ -191,9 +195,13 @@ export default function Student({ loaderData }: Route.ComponentProps) {
 
           {/* actions */}
           <div className="modal-action">
-            <form method="dialog">
-              <button className="btn btn-error" onClick={() => setSelectedStudent(null)}>Tutup</button>
-            </form>
+            <button className="btn btn-error" type="button" onClick={() => {
+              detailModalRef.current?.close()
+              setSelectedStudent(null)
+            }}
+            >
+              Tutup
+            </button>
           </div>
         </div>
       </dialog>
@@ -226,9 +234,13 @@ export default function Student({ loaderData }: Route.ComponentProps) {
             <div className="modal-action">
               <button className="btn btn-success" type="submit" onClick={() => updateModalRef.current?.close()}>Ubah</button>
 
-              <form method="dialog">
-                <button className="btn btn-error">Batal</button>
-              </form>
+              <button className="btn btn-error" type="button" onClick={() => {
+                updateModalRef.current?.close()
+                setSelectedStudent(null)
+              }}
+              >
+                Batal
+              </button>
             </div>
           </Form>
 

@@ -140,9 +140,14 @@ export default function Class({ loaderData }: Route.ComponentProps) {
 
             <div className="modal-action">
               <button className="btn btn-success" type="submit">Tambah</button>
-              <form method="dialog">
-                <button className="btn btn-error">Batal</button>
-              </form>
+
+              <button className="btn btn-error" type="button" onClick={() => {
+                addModalRef.current?.close()
+                setSelectedClass(null)
+              }}
+              >
+                Batal
+              </button>
             </div>
           </Form>
         </div>
@@ -187,11 +192,13 @@ export default function Class({ loaderData }: Route.ComponentProps) {
           </div>
 
           <div className="modal-action">
-            <form method="dialog">
-              <button className="btn btn-error" onClick={() => setSelectedClass(null)}>
-                Tutup
-              </button>
-            </form>
+            <button className="btn btn-error" type="button" onClick={() => {
+              detailModalRef.current?.close()
+              setSelectedClass(null)
+            }}
+            >
+              Tutup
+            </button>
           </div>
         </div>
       </dialog>
@@ -222,11 +229,14 @@ export default function Class({ loaderData }: Route.ComponentProps) {
 
             <div className="modal-action">
               <button className="btn btn-success" type="submit">Ubah</button>
-              <form method="dialog">
-                <button className="btn btn-error" onClick={() => setSelectedClass(null)}>
-                  Batal
-                </button>
-              </form>
+
+              <button className="btn btn-error" type="button" onClick={() => {
+                updateModalRef.current?.close()
+                setSelectedClass(null)
+              }}
+              >
+                Batal
+              </button>
             </div>
           </Form>
         </div>
