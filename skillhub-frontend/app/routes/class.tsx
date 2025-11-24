@@ -18,6 +18,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
 
   const [selectedClass, setSelectedClass] = useState<Class | null>(null)
   const [classStudents, setStudentClasses] = useState<any[]>()
+  const [error, setError] = useState<boolean>(false)
 
   const detailClass = async (id: string) => {
     const students = await new ClassService().getAllStudentById(id!)
@@ -48,6 +49,21 @@ export default function Class({ loaderData }: Route.ComponentProps) {
     window.location.reload()
   }
 
+  const handleRemoveClass = async () => {
+    try {
+      await classService.deleteById(selectedClass?.id!)
+      window.location.reload()
+    } catch (error) {
+      setError(true)
+
+      setTimeout(() => {
+        setError(false)
+      }, 3000)
+    } finally {
+      deleteModalRef.current?.close()
+    }
+  }
+
   return (
     <main className="p-6">
       <button className="btn btn-success" onClick={() => addModalRef.current?.showModal()}>
@@ -71,7 +87,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
               <tr key={classData.id}>
                 <th>{index + 1}</th>
                 <td>{classData.name}</td>
-                <td>{classData.description}</td>
+                <td className="max-w-[200px] truncate">{classData.description}</td>
                 <td>{classData.instructor}</td>
                 <td className="flex space-x-3">
                   <button
@@ -227,9 +243,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
           </p>
 
           <div className="modal-action">
-            <Form action="/actions/class" method="DELETE" onSubmit={() => deleteModalRef.current?.close()}>
-              <input type="text" name="intent" defaultValue="delete" hidden />
-              <input type="text" name="id" defaultValue={selectedClass?.id} hidden />
+            <Form onSubmit={handleRemoveClass}>
               <button className="btn btn-success" type="submit">Hapus</button>
             </Form>
 
@@ -241,6 +255,16 @@ export default function Class({ loaderData }: Route.ComponentProps) {
           </div>
         </div>
       </dialog>
+
+      {/* Error Toast */}
+      {
+        error &&
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-error">
+            <span>Kelas tidak bisa dihapus. Mohon mengosongkan kelas terlebih dahulu</span>
+          </div>
+        </div>
+      }
     </main>
   )
 }

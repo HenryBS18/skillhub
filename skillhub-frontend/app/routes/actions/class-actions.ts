@@ -12,7 +12,6 @@ export async function action({ request }: Route.ActionArgs) {
   switch (intent) {
     case 'add': return add(formData)
     case 'update': return update(formData)
-    case 'delete': return remove(formData)
     default: return
   }
 }
@@ -34,12 +33,6 @@ async function update(formData: Record<string, string | undefined>) {
     description: formData.description!,
     instructor: formData.instructor!,
   })
-
-  return redirect('/kelas')
-}
-
-async function remove(formData: Record<string, string | undefined>) {
-  await classService.deleteById(formData.id!)
 
   return redirect('/kelas')
 }

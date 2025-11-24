@@ -78,8 +78,6 @@ export default function Student({ loaderData }: Route.ComponentProps) {
             <tr>
               <th></th>
               <th>Nama</th>
-              <th>NIM</th>
-              <th>Email</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -90,8 +88,6 @@ export default function Student({ loaderData }: Route.ComponentProps) {
                 <tr key={student.id}>
                   <th>{index + 1}</th>
                   <td>{student.name}</td>
-                  <td>{student.nim}</td>
-                  <td>{student.email}</td>
                   <td className="flex space-x-3">
                     <button className="btn btn-info" onClick={() => handleOpenModal(student, "detail")}>Detail</button>
                     <button className="btn btn-warning" onClick={() => handleOpenModal(student, "update")}>Ubah</button>
