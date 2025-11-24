@@ -17,12 +17,19 @@ export default function Student({ loaderData }: Route.ComponentProps) {
   const deleteModalRef = useRef<HTMLDialogElement | null>(null)
 
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
+  const [studentClasses, setStudentClasses] = useState<any[]>()
 
-  const handleOpenModal = (student: Student, action: 'detail' | 'update' | 'delete') => {
+  const handleOpenModal = async (student: Student, action: 'detail' | 'update' | 'delete') => {
     setSelectedStudent(student)
+
+    const detailClass = async (id: string) => {
+      const classes = await new StudentService().getAllClassById(id!)
+      setStudentClasses(classes)
+    }
 
     switch (action) {
       case "detail":
+        await detailClass(student.id)
         detailModalRef.current?.showModal()
         return
       case "update":
@@ -34,6 +41,11 @@ export default function Student({ loaderData }: Route.ComponentProps) {
       default:
         return
     }
+  }
+
+  const handleDeleteStudentClass = async (id: string) => {
+    await new StudentService().removeFromClass(id)
+    window.location.reload()
   }
 
   return (
@@ -130,6 +142,22 @@ export default function Student({ loaderData }: Route.ComponentProps) {
             <div>
               <p className="text-sm font-bold">Email:</p>
               <p>{selectedStudent?.email}</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-bold">Kelas yang diikuti:</p>
+              <ul>
+                {
+                  studentClasses?.length != 0 ? studentClasses?.map((data) => (
+                    <li key={data.id} className="flex space-x-2">
+                      <span>- {data.class.name}</span>
+                      <span className="font-bold cursor-pointer" onClick={() => handleDeleteStudentClass(data.id)}>X</span>
+                    </li>
+                  )) : (
+                    <p>-</p>
+                  )
+                }
+              </ul>
             </div>
           </div>
 

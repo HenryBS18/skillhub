@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import { Form } from "react-router"
-import { ClassService } from "~/services"
+import { ClassService, StudentService } from "~/services"
 import type { Class } from "~/types"
 import type { Route } from "./+types/class"
 
@@ -17,12 +17,19 @@ export default function Class({ loaderData }: Route.ComponentProps) {
   const deleteModalRef = useRef<HTMLDialogElement | null>(null)
 
   const [selectedClass, setSelectedClass] = useState<Class | null>(null)
+  const [classStudents, setStudentClasses] = useState<any[]>()
+
+  const detailClass = async (id: string) => {
+    const students = await new ClassService().getAllStudentById(id!)
+    setStudentClasses(students)
+  }
 
   const handleOpenModal = (classData: Class, action: "detail" | "update" | "delete") => {
     setSelectedClass(classData)
 
     switch (action) {
       case "detail":
+        detailClass(classData.id)
         detailModalRef.current?.showModal()
         return
       case "update":
@@ -34,6 +41,11 @@ export default function Class({ loaderData }: Route.ComponentProps) {
       default:
         return
     }
+  }
+
+  const handleDeleteStudentClass = async (id: string) => {
+    await new StudentService().removeFromClass(id)
+    window.location.reload()
   }
 
   return (
@@ -146,6 +158,22 @@ export default function Class({ loaderData }: Route.ComponentProps) {
             <div>
               <p className="text-sm font-bold">Instruktor:</p>
               <p>{selectedClass?.instructor}</p>
+            </div>
+
+            <div>
+              <p className="text-sm font-bold">Daftar Peserta:</p>
+              <ul>
+                {
+                  classStudents?.length != 0 ? classStudents?.map((data) => (
+                    <li key={data.id} className="flex space-x-2">
+                      <span>- {data.student.name}</span>
+                      <span className="font-bold cursor-pointer" onClick={() => handleDeleteStudentClass(data.id)}>X</span>
+                    </li>
+                  )) : (
+                    <p>-</p>
+                  )
+                }
+              </ul>
             </div>
           </div>
 
