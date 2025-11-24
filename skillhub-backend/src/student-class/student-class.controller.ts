@@ -8,7 +8,7 @@ export class StudentClassController {
   constructor(private readonly studentClassService: StudentClassService) { }
 
   @Post('/student/:studentId/class')
-  public async create(@Res() res: Response, @Param('studentId') studentId: string, @Body() { classId }: { classId: string }) {
+  public async assignClass(@Res() res: Response, @Param('studentId') studentId: string, @Body() { classId }: { classId: string }) {
     try {
       await this.studentClassService.create({ studentId, classId })
 
@@ -29,6 +29,17 @@ export class StudentClassController {
     }
   }
 
+  @Get('/student/:id/class/not-assigned')
+  public async getAllClassesNotAssignedByStudentId(@Res() res: Response, @Param('id') studentId: string) {
+    try {
+      const classes = await this.studentClassService.getAllClassNotAssignedByStudentId(studentId)
+
+      return res.json(classes)
+    } catch (error) {
+      return errorMessageParser(res, error)
+    }
+  }
+
   @Get('/class/:id/student')
   public async getAllStudentsByClassId(@Res() res: Response, @Param('id') classId: string) {
     try {
@@ -41,7 +52,7 @@ export class StudentClassController {
   }
 
   @Delete('/student-class/:id')
-  public async deleteById(@Res() res: Response, @Param('id') id: string) {
+  public async RemoveFromClass(@Res() res: Response, @Param('id') id: string) {
     try {
       await this.studentClassService.deleteById(id)
 

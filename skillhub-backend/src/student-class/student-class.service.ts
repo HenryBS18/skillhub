@@ -67,6 +67,30 @@ export class StudentClassService {
     }
   }
 
+  public async getAllClassNotAssignedByStudentId(studentId: string): Promise<any[]> {
+    try {
+      const assignedClassIds = await this.prisma.studentClass.findMany({
+        where: {
+          studentId
+        },
+        select: {
+          classId: true
+        }
+      }).then(rows => rows.map(r => r.classId))
+
+      const classes = await this.prisma.class.findMany({
+        select: {
+          id: true,
+          name: true,
+        }
+      })
+
+      return classes.filter(c => !assignedClassIds.includes(c.id))
+    } catch (error) {
+      throw error
+    }
+  }
+
   public async deleteById(id: string): Promise<void> {
     try {
       const studentClass = await this.prisma.studentClass.findFirst({
