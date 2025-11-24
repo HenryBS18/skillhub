@@ -59,7 +59,6 @@ export default function Class({ loaderData }: Route.ComponentProps) {
           <thead>
             <tr>
               <th></th>
-              <th>ID</th>
               <th>Nama</th>
               <th>Deskripsi</th>
               <th>Instruktor</th>
@@ -71,7 +70,6 @@ export default function Class({ loaderData }: Route.ComponentProps) {
             {loaderData.map((classData, index) => (
               <tr key={classData.id}>
                 <th>{index + 1}</th>
-                <td>{classData.id}</td>
                 <td>{classData.name}</td>
                 <td>{classData.description}</td>
                 <td>{classData.instructor}</td>
@@ -140,11 +138,6 @@ export default function Class({ loaderData }: Route.ComponentProps) {
           <h1 className="mb-4 text-lg font-bold">Detail Kelas</h1>
 
           <div className="flex flex-col space-y-3">
-            <div>
-              <p className="text-sm font-bold">ID:</p>
-              <p>{selectedClass?.id}</p>
-            </div>
-
             <div>
               <p className="text-sm font-bold">Nama:</p>
               <p>{selectedClass?.name}</p>

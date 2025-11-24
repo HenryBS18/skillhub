@@ -77,7 +77,6 @@ export default function Student({ loaderData }: Route.ComponentProps) {
           <thead>
             <tr>
               <th></th>
-              <th>ID</th>
               <th>Nama</th>
               <th>NIM</th>
               <th>Email</th>
@@ -90,7 +89,6 @@ export default function Student({ loaderData }: Route.ComponentProps) {
               loaderData.map((student, index) => (
                 <tr key={student.id}>
                   <th>{index + 1}</th>
-                  <td>{student.id}</td>
                   <td>{student.name}</td>
                   <td>{student.nim}</td>
                   <td>{student.email}</td>
@@ -147,10 +145,6 @@ export default function Student({ loaderData }: Route.ComponentProps) {
           <h1 className="mb-4 text-lg font-bold">Detail Peserta</h1>
 
           <div className="flex flex-col space-y-3">
-            <div>
-              <p className="text-sm font-bold">ID:</p>
-              <p>{selectedStudent?.id}</p>
-            </div>
             <div>
               <p className="text-sm font-bold">Nama:</p>
               <p>{selectedStudent?.name}</p>
