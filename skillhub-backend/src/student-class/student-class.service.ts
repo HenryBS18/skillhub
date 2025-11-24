@@ -11,7 +11,10 @@ export class StudentClassService {
     try {
       const alreadyJoin = await this.prisma.studentClass.findFirst({
         where: {
-          classId: data.classId
+          classId: data.classId,
+          AND: {
+            studentId: data.studentId,
+          }
         }
       })
       if (alreadyJoin) throw new Error('Already join class')
