@@ -17,14 +17,23 @@ export default function Student({ loaderData }: Route.ComponentProps) {
   const deleteModalRef = useRef<HTMLDialogElement | null>(null)
 
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null)
-  const [studentClasses, setStudentClasses] = useState<any[]>()
+  const [studentClasses, setStudentClasses] = useState<any[]>([])
+  const [classNotAssigned, setClassNotAssigned] = useState<any[]>([])
+
+  const studentService = new StudentService()
 
   const handleOpenModal = async (student: Student, action: 'detail' | 'update' | 'delete') => {
     setSelectedStudent(student)
 
     const detailClass = async (id: string) => {
-      const classes = await new StudentService().getAllClassById(id!)
+
+      const [classes, classNotAssigned] = await Promise.all([
+        await studentService.getAllClassById(id!),
+        await studentService.getAllClassNotAssigned(id!),
+      ])
+
       setStudentClasses(classes)
+      setClassNotAssigned(classNotAssigned)
     }
 
     switch (action) {
@@ -44,8 +53,19 @@ export default function Student({ loaderData }: Route.ComponentProps) {
   }
 
   const handleDeleteStudentClass = async (id: string) => {
-    await new StudentService().removeFromClass(id)
-    window.location.reload()
+    await studentService.removeFromClass(id)
+    setStudentClasses(prev => prev.filter(prevClasses => prevClasses.id != id))
+
+    const classNotAssigned = await studentService.getAllClassNotAssigned(selectedStudent?.id!)
+    setClassNotAssigned(classNotAssigned)
+  }
+
+  const assignClass = async (classId: string) => {
+    await studentService.assignClass({ studentId: selectedStudent?.id!, classId })
+    setClassNotAssigned(prev => prev.filter(prevClass => prevClass.id !== classId))
+
+    const classes = await studentService.getAllClassById(selectedStudent?.id!)
+    setStudentClasses(classes)
   }
 
   return (
@@ -146,6 +166,7 @@ export default function Student({ loaderData }: Route.ComponentProps) {
 
             <div>
               <p className="text-sm font-bold">Kelas yang diikuti:</p>
+
               <ul>
                 {
                   studentClasses?.length != 0 ? studentClasses?.map((data) => (
@@ -158,6 +179,23 @@ export default function Student({ loaderData }: Route.ComponentProps) {
                   )
                 }
               </ul>
+
+              {
+                selectedStudent && (
+                  <details className="dropdown my-1">
+                    <summary className="btn btn-success m-1">Tambah kelas</summary>
+                    <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                      {
+                        classNotAssigned.length !== 0 ? classNotAssigned.map((value, i) => (
+                          <li key={i}><a onClick={() => assignClass(value.id)}>{value.name}</a></li>
+                        )) : (
+                          <li>Tidak ada kelas lagi yang dapat diikuti</li>
+                        )
+                      }
+                    </ul>
+                  </details>
+                )
+              }
             </div>
           </div>
 

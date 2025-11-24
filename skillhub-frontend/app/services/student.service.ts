@@ -69,9 +69,20 @@ export class StudentService {
     }
   }
 
+  public async getAllClassNotAssigned(studentId: string): Promise<any[]> {
+    try {
+      const res = await this.api.get(`/${studentId}/class/not-assigned`)
+      await checkError(res)
+
+      return res.json()
+    } catch (error) {
+      throw error
+    }
+  }
+
   public async assignClass({ studentId, classId }: AssignClass): Promise<void> {
     try {
-      const res = await this.api.post(`/${studentId}/class`, classId)
+      const res = await this.api.post(`/${studentId}/class`, { classId })
       await checkError(res)
     } catch (error) {
       throw error
