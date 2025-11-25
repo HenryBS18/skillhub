@@ -20,7 +20,6 @@ export default function Student({ loaderData }: Route.ComponentProps) {
   const [studentClasses, setStudentClasses] = useState<any[]>([])
   const [classNotAssigned, setClassNotAssigned] = useState<any[]>([])
 
-  const studentService = new StudentService()
 
   const handleOpenModal = async (student: Student, action: 'detail' | 'update' | 'delete') => {
     setSelectedStudent(student)

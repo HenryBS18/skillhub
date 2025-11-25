@@ -1,4 +1,5 @@
 import { env } from "./env"
+
 export class Api {
   private baseUrl: string
   private prefix: string

@@ -5,6 +5,7 @@ import type { Class } from "~/types"
 import type { Route } from "./+types/class"
 
 const classService = new ClassService()
+const studentService = new StudentService()
 
 export async function loader() {
   return await classService.getAll()
@@ -21,7 +22,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
   const [error, setError] = useState<boolean>(false)
 
   const detailClass = async (id: string) => {
-    const students = await new ClassService().getAllStudentById(id!)
+    const students = await classService.getAllStudentById(id!)
     setStudentClasses(students)
   }
 
@@ -45,7 +46,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
   }
 
   const handleDeleteStudentClass = async (id: string) => {
-    await new StudentService().removeFromClass(id)
+    await studentService.removeFromClass(id)
     window.location.reload()
   }
 
