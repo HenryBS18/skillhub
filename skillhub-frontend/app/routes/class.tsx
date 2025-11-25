@@ -79,7 +79,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
               <th></th>
               <th>Nama</th>
               <th>Deskripsi</th>
-              <th>Instruktor</th>
+              <th>instruktur</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -136,8 +136,8 @@ export default function Class({ loaderData }: Route.ComponentProps) {
             </label>
 
             <label className="floating-label">
-              <span>Instruktor</span>
-              <input type="text" name="instructor" placeholder="Instruktor" className="w-full input input-md" required />
+              <span>instruktur</span>
+              <input type="text" name="instructor" placeholder="instruktur" className="w-full input input-md" required />
             </label>
 
             <div className="modal-action">
@@ -172,7 +172,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
             </div>
 
             <div>
-              <p className="text-sm font-bold">Instruktor:</p>
+              <p className="text-sm font-bold">instruktur:</p>
               <p>{selectedClass?.instructor}</p>
             </div>
 
@@ -222,7 +222,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
             </label>
 
             <label className="floating-label">
-              <span>Instruktor</span>
+              <span>instruktur</span>
               <input type="text" name="instructor" className="w-full input input-md" defaultValue={selectedClass?.instructor} />
             </label>
 
