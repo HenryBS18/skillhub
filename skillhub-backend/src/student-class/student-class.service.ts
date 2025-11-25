@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { StudentClass } from 'generated/prisma'
+import { StudentClass } from 'generated/prisma/client'
 import { NotFoundError } from 'src/common/errors/not-found-error'
 import { PrismaService } from 'src/common/prisma.service'
 

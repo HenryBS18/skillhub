@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Res } from '@nestjs/common'
 import type { Response } from 'express'
-import type { Student } from 'generated/prisma'
+import type { Student } from 'generated/prisma/client'
 import { errorMessageParser } from 'src/common/utils/error-message-parser'
 import { StudentService } from './student.service'
 
