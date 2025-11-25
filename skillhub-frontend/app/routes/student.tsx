@@ -189,7 +189,7 @@ export default function Student({ loaderData }: Route.ComponentProps) {
       {/* Update Modal */}
       <dialog id="update-student-modal" className="modal" ref={updateModalRef}>
         <div className="modal-box">
-          <h1 className="mb-4 text-lg font-bold">Update Peserta</h1>
+          <h1 className="mb-4 text-lg font-bold">Ubah Peserta</h1>
 
           <Form className="flex flex-col w-full space-y-5" action="/actions/student" method="PATCH" onSubmit={() => updateModalRef.current?.close()}>
             <input type="text" name="intent" defaultValue="update" hidden />

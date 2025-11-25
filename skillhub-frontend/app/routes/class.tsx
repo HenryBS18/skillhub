@@ -205,7 +205,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
       {/* Update Modal */}
       <dialog id="update-class-modal" className="modal" ref={updateModalRef}>
         <div className="modal-box">
-          <h1 className="mb-4 text-lg font-bold">Update Kelas</h1>
+          <h1 className="mb-4 text-lg font-bold">Ubah Kelas</h1>
 
           <Form className="flex flex-col w-full space-y-5" action="/actions/class" method="PATCH" onSubmit={() => updateModalRef.current?.close()}>
             <input type="text" name="intent" defaultValue="update" hidden />
