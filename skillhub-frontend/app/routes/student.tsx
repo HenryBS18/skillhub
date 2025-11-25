@@ -41,6 +41,7 @@ export default function Student({ loaderData }: Route.ComponentProps) {
         detailModalRef.current?.showModal()
         return
       case "update":
+        await detailClass(student.id)
         updateModalRef.current?.showModal()
         return
       case "delete":
@@ -163,32 +164,12 @@ export default function Student({ loaderData }: Route.ComponentProps) {
               <ul>
                 {
                   studentClasses?.length != 0 ? studentClasses?.map((data) => (
-                    <li key={data.id} className="flex space-x-2">
-                      <span>- {data.class.name}</span>
-                      <span className="font-bold cursor-pointer" onClick={() => handleDeleteStudentClass(data.id)}>X</span>
-                    </li>
+                    <li key={data.id} className="flex space-x-2">- {data.class.name}</li>
                   )) : (
                     <p>-</p>
                   )
                 }
               </ul>
-
-              {
-                selectedStudent && (
-                  <details className="dropdown my-1">
-                    <summary className="btn btn-success m-1">Tambah kelas</summary>
-                    <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                      {
-                        classNotAssigned.length !== 0 ? classNotAssigned.map((value, i) => (
-                          <li key={i}><a onClick={() => assignClass(value.id)}>{value.name}</a></li>
-                        )) : (
-                          <li>Tidak ada kelas lagi yang dapat diikuti</li>
-                        )
-                      }
-                    </ul>
-                  </details>
-                )
-              }
             </div>
           </div>
 
@@ -228,6 +209,40 @@ export default function Student({ loaderData }: Route.ComponentProps) {
               <span>Email</span>
               <input type="text" name="email" placeholder="Email" className="w-full input input-md" defaultValue={selectedStudent?.email} />
             </label>
+
+            <div>
+              <p className="text-sm font-bold">Kelas yang diikuti:</p>
+
+              <ul>
+                {
+                  studentClasses?.length != 0 ? studentClasses?.map((data) => (
+                    <li key={data.id} className="flex space-x-2">
+                      <span>- {data.class.name}</span>
+                      <span className="font-bold cursor-pointer" onClick={() => handleDeleteStudentClass(data.id)}>X</span>
+                    </li>
+                  )) : (
+                    <p>-</p>
+                  )
+                }
+              </ul>
+            </div>
+
+            {
+              selectedStudent && (
+                <details className="dropdown my-1">
+                  <summary className="btn btn-success m-1">Tambah kelas</summary>
+                  <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                    {
+                      classNotAssigned.length !== 0 ? classNotAssigned.map((value, i) => (
+                        <li key={i}><a onClick={() => assignClass(value.id)}>{value.name}</a></li>
+                      )) : (
+                        <li>Tidak ada kelas lagi yang dapat diikuti</li>
+                      )
+                    }
+                  </ul>
+                </details>
+              )
+            }
 
             {/* actions */}
             <div className="modal-action">

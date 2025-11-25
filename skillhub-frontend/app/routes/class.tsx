@@ -18,7 +18,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
   const deleteModalRef = useRef<HTMLDialogElement | null>(null)
 
   const [selectedClass, setSelectedClass] = useState<Class | null>(null)
-  const [classStudents, setStudentClasses] = useState<any[]>()
+  const [classStudents, setStudentClasses] = useState<any[]>([])
   const [error, setError] = useState<boolean>(false)
 
   const detailClass = async (id: string) => {
@@ -35,6 +35,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
         detailModalRef.current?.showModal()
         return
       case "update":
+        detailClass(classData.id)
         updateModalRef.current?.showModal()
         return
       case "delete":
@@ -47,7 +48,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
 
   const handleDeleteStudentClass = async (id: string) => {
     await studentService.removeFromClass(id)
-    window.location.reload()
+    setStudentClasses(prevStudents => prevStudents?.filter(student => student.id != id))
   }
 
   const handleRemoveClass = async () => {
@@ -180,10 +181,7 @@ export default function Class({ loaderData }: Route.ComponentProps) {
               <ul>
                 {
                   classStudents?.length != 0 ? classStudents?.map((data) => (
-                    <li key={data.id} className="flex space-x-2">
-                      <span>- {data.student.name}</span>
-                      <span className="font-bold cursor-pointer" onClick={() => handleDeleteStudentClass(data.id)}>X</span>
-                    </li>
+                    <li key={data.id} className="flex space-x-2">- {data.student.name}</li>
                   )) : (
                     <p>-</p>
                   )
@@ -227,6 +225,22 @@ export default function Class({ loaderData }: Route.ComponentProps) {
               <span>Instruktor</span>
               <input type="text" name="instructor" className="w-full input input-md" defaultValue={selectedClass?.instructor} />
             </label>
+
+            <div>
+              <p className="text-sm font-bold">Daftar Peserta:</p>
+              <ul>
+                {
+                  classStudents?.length != 0 ? classStudents?.map((data) => (
+                    <li key={data.id} className="flex space-x-2">
+                      <span>- {data.student.name}</span>
+                      <span className="font-bold cursor-pointer" onClick={() => handleDeleteStudentClass(data.id)}>X</span>
+                    </li>
+                  )) : (
+                    <p>-</p>
+                  )
+                }
+              </ul>
+            </div>
 
             <div className="modal-action">
               <button className="btn btn-success" type="submit">Ubah</button>
