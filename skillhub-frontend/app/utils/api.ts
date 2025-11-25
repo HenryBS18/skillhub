@@ -1,12 +1,10 @@
 import { env } from "./env"
-
-
 export class Api {
   private baseUrl: string
   private prefix: string
 
   constructor(prefix?: string) {
-    this.baseUrl = env.API_BASE_URL
+    this.baseUrl = typeof window === 'undefined' ? env.API_BASE_INTERNAL_URL : env.API_BASE_URL
     this.prefix = prefix ?? ''
   }
 
