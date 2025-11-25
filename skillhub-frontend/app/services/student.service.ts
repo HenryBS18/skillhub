@@ -1,7 +1,6 @@
 import type { AssignClass, CreateStudent, Student } from "~/types"
 import { Api, checkError } from "~/utils"
 
-
 export class StudentService {
   private api: Api
 
