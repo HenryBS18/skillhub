@@ -10,6 +10,10 @@ RUN npm i
 
 COPY . .
 
+RUN npx prisma generate
+
+RUN ls /app/generated/prisma
+
 RUN npm run build
 
 # Install
@@ -24,7 +28,9 @@ RUN npm i --omit=dev
 FROM node:22-alpine
 WORKDIR /app
 
-COPY --from=builder /app/build ./build
+COPY --from=builder /app/dist dist
 COPY --from=install /app/node_modules node_modules
+COPY --from=builder /app/prisma prisma
+COPY --from=builder /app/prisma.config.ts ./
 
-ENTRYPOINT [ "./node_modules/.bin/react-router-serve", "build/server/index.js" ]
+CMD [ "node", "dist/src/main" ]

@@ -1,0 +1,35 @@
+services:
+  db:
+    container_name: db
+    image: mysql:5.7
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - db-volume:/var/lib/mysql
+
+  backend:
+    container_name: backend
+    build: ./skillhub-backend
+    restart: unless-stopped
+    env_file:
+      - ./skillhub-backend/.env.production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    command: sh -c "npx prisma migrate deploy && node dist/src/main.js"
+
+  frontend:
+    container_name: frontend
+    build: ./skillhub-frontend
+    restart: unless-stopped
+    env_file:
+      - ./skillhub-frontend/.env.production
+    ports:
+      - "5000:5000"
+    depends_on:
+      - backend
+
+volumes:
+  db-volume:
